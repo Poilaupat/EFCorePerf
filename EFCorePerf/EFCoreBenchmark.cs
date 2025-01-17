@@ -39,13 +39,13 @@ namespace EFCorePerf
             var requestEntity = GetRequestEntityEager(_requestId);
 
             //Slide 1
-            //var reason = request
-            //        .Transactions
-            //        .First()
-            //        .Cheques
-            //        .Where(x => x.Reason is not null)
-            //        .First()
-            //        .Reason;
+            var reason = requestEntity
+                    .Transactions
+                    .First()
+                    .Cheques
+                    .Where(x => x.Reason is not null)
+                    .First()
+                    .Reason;
         }
 
         [Benchmark]
@@ -53,21 +53,16 @@ namespace EFCorePerf
         {
             var requestEntity = GetRequestEntityLazy(_requestId);
 
-            //Slide 1
-            //var reason = request
-            //        .Transactions
-            //        .First()
-            //        .Cheques
-            //        .Where(x => x.Reason is not null)
-            //        .First()
-            //        .Reason;
+            //Slide 1.1
+            var reason = requestEntity
+                    .Transactions
+                    .First()
+                    .Cheques
+                    .Where(x => x.Reason is not null)
+                    .First()
+                    .Reason;
         }
 
-        [Benchmark]
-        public void RunGetEntityEagerAsSplitQuery()
-        {
-            var requestEntity = GetRequestEntityEagerAsSplitQuery(_requestId);
-        }
 
         [Benchmark]
         public void RunGetBusinessEager()
@@ -81,6 +76,11 @@ namespace EFCorePerf
             var requestBusiness = GetRequestBusinessLazy(_requestId);
         }
 
+        [Benchmark]
+        public void RunGetEntityEagerAsSplitQuery()
+        {
+            var requestEntity = GetRequestEntityEagerAsSplitQuery(_requestId);
+        }
 
 
         private RequestEntity GetRequestEntityLazy(long requestId)
@@ -90,6 +90,15 @@ namespace EFCorePerf
                 var requestEntity = context
                     .Requests
                     .Find(requestId);
+
+                //Slide 1.2
+                //var reason = requestEntity
+                //    .Transactions
+                //    .First()
+                //    .Cheques
+                //    .Where(x => x.Reason is not null)
+                //    .First()
+                //    .Reason;
 
                 return requestEntity;
             }

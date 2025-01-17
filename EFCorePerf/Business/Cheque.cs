@@ -19,6 +19,6 @@ namespace EFCorePerf.Business
         public string BankCode { get; set; }
         public string Account {  get; set; }
 
-        public ICollection<Reason> Reasons { get; set; } = new List<Reason>();
+        public Reason? Reason { get; set; }
     }
 }
