@@ -6,9 +6,10 @@ using EFCorePerf;
 //BenchmarkRunner.Run<EFCoreBenchmark>();
 
 EFCoreBenchmark bench = new();
-//bench.RunGetEntityEager();
+bench.RunGetEntityEager();
 //bench.RunGetEntityLazy();
+//bench.RunGetEntityExplicit();
 //bench.RunGetBusinessEager();
 //bench.RunGetBusinessLazy();
 
-bench.RunGetEntityEagerAsSplitQuery();
+//bench.RunGetEntityEagerAsSplitQuery();

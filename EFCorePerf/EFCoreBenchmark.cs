@@ -63,6 +63,15 @@ namespace EFCorePerf
                     .Reason;
         }
 
+        public void RunGetEntityExplicit()
+        {
+            var requestEntity = GetRequestEntityExplicit(_requestId);
+
+            //Slide 1.1
+            var tranCount = requestEntity
+                    .Transactions
+                    .Count();
+        }
 
         [Benchmark]
         public void RunGetBusinessEager()
@@ -119,6 +128,24 @@ namespace EFCorePerf
                 //    .Include(x => x.Transactions).ThenInclude(x => x.Cheques).ThenInclude(x => x.Reason)
                 //    .Include(x => x.Transactions).ThenInclude(x => x.Deposits)
                 //    .Single(x => x.Id == requestId);
+
+                return request;
+            }
+        }
+
+        private RequestEntity GetRequestEntityExplicit(long requestId)
+        {
+            using (var context = new DataContextEager())
+            {
+                // Slide 1.1
+                var request = context
+                    .Requests
+                    .Find(requestId);
+
+                context
+                    .Entry(request)
+                    .Collection(r => r.Transactions)
+                    .Load();
 
                 return request;
             }
